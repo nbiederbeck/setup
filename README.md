@@ -1,5 +1,5 @@
 # setup
 
 ```
-curl -o https://raw.githubusercontent.com/nbiederbeck/setup/main/setup.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/nbiederbeck/setup/main/setup.sh)"
 ```
