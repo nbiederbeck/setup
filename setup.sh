@@ -1,4 +1,5 @@
 #!/bin/bash
+
 msg () {
     echo -e "${*}" >/dev/stderr
 }
@@ -26,6 +27,27 @@ Args:
     -h | --help
         Show this help.
 "
+
+packages=()
+
+install_yay () {
+    sudo pacman -Syu --needed git base-devel
+    cd "$(mktemp -d)" || exit 1
+    git clone https://aur.archlinux.org/yay-bin.git
+    cd yay-bin || exit 1
+    sudo makepkg -si
+    yay -Y --devel --combinedupgrade --batchinstall --save
+}
+
+rankmirrors () {
+    err "rankmirrors is not implemented"
+}
+
+install_packages () {
+    install_yay
+    rankmirrors
+    yay -Syyu --needed "${packages[@]}" --no-ask
+}
 
 install_texlive () {
     TEXLIVE_PREFIX="${HOME}/.local/texlive"
