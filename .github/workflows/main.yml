@@ -27,5 +27,5 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: shellcheck
-        run: shellcheck setup.sh
+        run: shellcheck -e SC1090 setup.sh
   
