@@ -52,7 +52,6 @@ install_packages () {
 install_texlive () {
     TEXLIVE_PREFIX="${HOME}/.local/texlive"
     cd "$(mktemp -d)" || exit 1
-    pwd
     curl -L http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz
 
     cd install-tl-* || exit 1
@@ -69,6 +68,9 @@ install_texlive () {
     cd "$(find "${TEXLIVE_PREFIX}" -name '20*' | sort | head -1)/bin/x86_64-linux" || exit 1
     ./tlmgr option autobackup -- -1
     ./tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet
+
+    git clone -q --depth 1 https://github.com/maxnoe/tudobeamertheme "$(kpsewhich --var-value TEXMFHOME)/tex/latex/tudobeamertheme"
+    git clone -q --depth 1 https://github.com/maxnoe/tudothesis "$(kpsewhich --var-value TEXMFHOME)/tex/latex/tudothesis"
 
     warn "Setup TexLive PATH"
 }
@@ -87,6 +89,7 @@ case $1 in
     -h|--help) msg "${usage}" && exit ;;
     conda) install_conda ;;
     texlive) install_texlive ;;
+    packages) install_packages ;;
     *) err "No command provided." ;;
 esac
 
