@@ -31,12 +31,12 @@ install_texlive () {
     TEXLIVE_PREFIX="${HOME}/.local/texlive"
     cd "$(mktemp -d)" || exit 1
     pwd
-    curl -L http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz
+    curl -fsSL http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar xz
 
     cd install-tl-* || exit 1
 
     # empty profile uses defaults
-    touch texlive.profile
+    echo "selected_scheme scheme-basic" > texlive.profile
 
     TEXLIVE_INSTALL_PREFIX=${TEXLIVE_PREFIX} \
     TEXLIVE_INSTALL_NO_RESUME=1 \
