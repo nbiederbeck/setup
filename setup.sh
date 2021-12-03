@@ -28,25 +28,34 @@ Args:
         Show this help.
 "
 
-packages=()
+packages=(
+    zsh
+    exa
+    ripgrep
+    fd
+    alacritty
+    tmux
+    htop
+)
 
 install_yay () {
     sudo pacman -Syu --needed git base-devel
     cd "$(mktemp -d)" || exit 1
     git clone https://aur.archlinux.org/yay-bin.git
     cd yay-bin || exit 1
-    sudo makepkg -si
+    makepkg -si
     yay -Y --devel --combinedupgrade --batchinstall --save
 }
 
-rankmirrors () {
-    err "rankmirrors is not implemented"
+mirrorrank () {
+    yay -S --needed pacman-contrib curl
+    curl -s "https://archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - | sudo tee /etc/pacman.d/mirrorlist
 }
 
 install_packages () {
-    install_yay
-    rankmirrors
-    yay -Syyu --needed "${packages[@]}" --no-ask
+    command -v yay || install_yay
+    mirrorrank
+    yay -Syyu --needed "${packages[@]}"
 }
 
 install_texlive () {
