@@ -105,6 +105,10 @@ install_conda () {
     conda install -c conda-forge mamba --yes
 }
 
+install_fonts () {
+    bash ./fonts.sh
+}
+
 case $1 in
     -h|--help) msg "${usage}" && exit ;;
     conda) install_conda ;;
