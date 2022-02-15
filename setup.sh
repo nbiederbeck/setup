@@ -36,6 +36,8 @@ packages=(
     alacritty
     tmux
     htop
+    neovim
+    polybar
 )
 
 install_yay () {
@@ -56,6 +58,15 @@ install_packages () {
     command -v yay || install_yay
     mirrorrank
     yay -Syyu --needed "${packages[@]}"
+    setup_neovim
+}
+
+setup_neovim () {
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+	           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    command -v mamba || install_conda
+    mamba env create -f ~/.config/nvim/environment-nvim.yml
+    nvim +'PlugInstall|UpdateRemotePlugins|qa'
 }
 
 install_texlive () {
