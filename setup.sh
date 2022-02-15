@@ -46,12 +46,12 @@ install_yay () {
     git clone https://aur.archlinux.org/yay-bin.git
     cd yay-bin || exit 1
     makepkg -si
-    yay -Y --devel --combinedupgrade --batchinstall --save
+    yay -Y --devel --combinedupgrade --batchinstall --nocleanafter --save
 }
 
 mirrorrank () {
     yay -S --needed pacman-contrib curl
-    curl -s "https://archlinux.org/mirrorlist/?country=FR&country=GB&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - | sudo tee /etc/pacman.d/mirrorlist
+    curl -s "https://archlinux.org/mirrorlist/?country=DE&protocol=https&use_mirror_status=on" | sed -e 's/^#Server/Server/' -e '/^#/d' | rankmirrors -n 5 - | sudo tee /etc/pacman.d/mirrorlist
 }
 
 install_packages () {
